@@ -16,8 +16,11 @@ if not exist "%DESTINATION%" (
     mkdir "%DESTINATION%"
 )
 
+REM Set number of threads for robocopy
+set "THREADS=16"  REM You can adjust this number as needed (up to 128)
+
 REM Copy all files and folders excluding node_modules
-robocopy "%SOURCE%" "%DESTINATION%" /E /XD node_modules
+robocopy "%SOURCE%" "%DESTINATION%" /E /XD node_modules /MT:%THREADS%
 
 REM Check if the copy operation was successful
 if %errorlevel% geq 8 (
@@ -28,7 +31,7 @@ if %errorlevel% geq 8 (
 echo Files and folders copied successfully.
 
 REM Move all files and folders from source to destination excluding node_modules
-robocopy "%SOURCE%" "%DESTINATION%" /E /MOVE /XD node_modules
+robocopy "%SOURCE%" "%DESTINATION%" /E /MOVE /XD node_modules /MT:%THREADS%
 
 REM Check if the move operation was successful
 if %errorlevel% geq 8 (
